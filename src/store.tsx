@@ -78,7 +78,11 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    const newSocket = io();
+    const newSocket = io({
+      transports: ['websocket'], // 强制使用 websocket，避免 Cloud Run 环境下长轮询导致的连接丢失
+      reconnectionAttempts: 5,
+      reconnectionDelay: 1000,
+    });
     setSocket(newSocket);
 
     newSocket.on('connect', () => {
