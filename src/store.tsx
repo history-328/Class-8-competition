@@ -78,20 +78,28 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    const newSocket = io({
-      transports: ['websocket'], // 强制使用 websocket，避免 Cloud Run 环境下长轮询导致的连接丢失
-      reconnectionAttempts: 5,
+    // 明确指定连接 URL 和配置，允许 polling 作为后备（解决某些网络环境下 websocket 被拦截的问题）
+    const newSocket = io(window.location.origin, {
+      path: '/socket.io',
+      transports: ['polling', 'websocket'], 
+      reconnectionAttempts: Infinity,
       reconnectionDelay: 1000,
+      reconnectionDelayMax: 5000,
+      timeout: 20000,
     });
     setSocket(newSocket);
 
     newSocket.on('connect', () => {
       console.log('Connected to server');
+      // 连接成功时清除可能存在的错误提示
+      setToast(null);
     });
 
     newSocket.on('connect_error', (err) => {
       console.error('Connection error:', err);
-      showToast(`连接失败: ${err.message}`, 'error');
+      // 打印更详细的错误信息
+      const errorType = (err as any).type ? `[${(err as any).type}]` : '';
+      showToast(`连接失败: ${err.message} ${errorType} (正在重试...)`, 'error');
     });
 
     newSocket.on('stateUpdate', (newState: AppState) => {
