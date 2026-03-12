@@ -91,7 +91,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
     newSocket.on('connect_error', (err) => {
       console.error('Connection error:', err);
-      showToast('无法连接到服务器，请刷新页面重试。', 'error');
+      showToast(`连接失败: ${err.message}`, 'error');
     });
 
     newSocket.on('stateUpdate', (newState: AppState) => {
