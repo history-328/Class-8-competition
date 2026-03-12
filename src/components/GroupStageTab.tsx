@@ -209,8 +209,8 @@ export const GroupStageTab: React.FC = () => {
             </thead>
             <tbody>
               {standings.map((team, index) => {
-                const isWinnerBracket = team.points >= 3;
-                const isLoserBracket = team.points <= 2;
+                const isWinnerBracket = index < 3;
+                const isLoserBracket = index >= 3;
                 return (
                   <tr
                     key={team.id}
@@ -235,7 +235,7 @@ export const GroupStageTab: React.FC = () => {
             </tbody>
           </table>
           <div className="p-4 bg-slate-900/50 text-xs text-slate-400 border-t border-slate-700">
-            <p>分组规则：累计积分≥3分的队伍进入胜者组，累计积分≤2分的队伍进入败者组。</p>
+            <p>分组规则：累计积分前3名的队伍进入胜者组，累计积分后2名的队伍进入败者组。</p>
           </div>
         </div>
       </div>
