@@ -30,7 +30,7 @@ const AppContent = () => {
                 <Trophy className="w-6 h-6 text-white" />
               </div>
               <h1 className="text-xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 uppercase">
-                新星杯 Nova Cup
+                新星杯 8班 Nova Cup
               </h1>
             </div>
             
