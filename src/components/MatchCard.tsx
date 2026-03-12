@@ -7,11 +7,13 @@ interface MatchCardProps {
   teams: Team[];
   label: string;
   bo: string;
+  team1Label?: string;
+  team2Label?: string;
   onChange: (match: Partial<Match>) => void;
   onRemove?: () => void;
 }
 
-export const MatchCard: React.FC<MatchCardProps> = ({ match, teams, label, bo, onChange, onRemove }) => {
+export const MatchCard: React.FC<MatchCardProps> = ({ match, teams, label, bo, team1Label, team2Label, onChange, onRemove }) => {
   const { isAdmin } = useAppStore();
 
   const handleTeamChange = (teamKey: 'team1Id' | 'team2Id', value: string) => {
@@ -44,21 +46,24 @@ export const MatchCard: React.FC<MatchCardProps> = ({ match, teams, label, bo, o
       <div className="flex flex-col">
         {/* Team 1 */}
         <div className={`flex items-center justify-between px-3 py-2 ${isWinner1 ? 'bg-slate-800/80' : ''}`}>
-          <select
-            value={match.team1Id || ''}
-            onChange={(e) => handleTeamChange('team1Id', e.target.value)}
-            disabled={!isAdmin}
-            className={`bg-transparent border-none text-sm focus:ring-0 outline-none w-32 ${
-              isWinner1 ? 'text-white font-bold' : 'text-slate-300'
-            } ${!isAdmin ? 'appearance-none cursor-default' : ''}`}
-          >
-            <option value="" className="text-slate-800">选择队伍</option>
-            {teams.map((t) => (
-              <option key={t.id} value={t.id} className="text-slate-800">
-                {t.name}
-              </option>
-            ))}
-          </select>
+          <div className="flex flex-col w-32">
+            {team1Label && <span className="text-[10px] text-slate-500 mb-0.5">{team1Label}</span>}
+            <select
+              value={match.team1Id || ''}
+              onChange={(e) => handleTeamChange('team1Id', e.target.value)}
+              disabled={!isAdmin}
+              className={`bg-transparent border-none text-sm focus:ring-0 outline-none w-full p-0 ${
+                isWinner1 ? 'text-white font-bold' : 'text-slate-300'
+              } ${!isAdmin ? 'appearance-none cursor-default' : ''}`}
+            >
+              <option value="" className="text-slate-800">选择队伍</option>
+              {teams.map((t) => (
+                <option key={t.id} value={t.id} className="text-slate-800">
+                  {t.name}
+                </option>
+              ))}
+            </select>
+          </div>
           <input
             type="number"
             min="0"
@@ -73,21 +78,24 @@ export const MatchCard: React.FC<MatchCardProps> = ({ match, teams, label, bo, o
         <div className="h-px bg-slate-700 w-full" />
         {/* Team 2 */}
         <div className={`flex items-center justify-between px-3 py-2 ${isWinner2 ? 'bg-slate-800/80' : ''}`}>
-          <select
-            value={match.team2Id || ''}
-            onChange={(e) => handleTeamChange('team2Id', e.target.value)}
-            disabled={!isAdmin}
-            className={`bg-transparent border-none text-sm focus:ring-0 outline-none w-32 ${
-              isWinner2 ? 'text-white font-bold' : 'text-slate-300'
-            } ${!isAdmin ? 'appearance-none cursor-default' : ''}`}
-          >
-            <option value="" className="text-slate-800">选择队伍</option>
-            {teams.map((t) => (
-              <option key={t.id} value={t.id} className="text-slate-800">
-                {t.name}
-              </option>
-            ))}
-          </select>
+          <div className="flex flex-col w-32">
+            {team2Label && <span className="text-[10px] text-slate-500 mb-0.5">{team2Label}</span>}
+            <select
+              value={match.team2Id || ''}
+              onChange={(e) => handleTeamChange('team2Id', e.target.value)}
+              disabled={!isAdmin}
+              className={`bg-transparent border-none text-sm focus:ring-0 outline-none w-full p-0 ${
+                isWinner2 ? 'text-white font-bold' : 'text-slate-300'
+              } ${!isAdmin ? 'appearance-none cursor-default' : ''}`}
+            >
+              <option value="" className="text-slate-800">选择队伍</option>
+              {teams.map((t) => (
+                <option key={t.id} value={t.id} className="text-slate-800">
+                  {t.name}
+                </option>
+              ))}
+            </select>
+          </div>
           <input
             type="number"
             min="0"
