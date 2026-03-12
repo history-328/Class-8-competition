@@ -4,11 +4,11 @@ import { TeamsTab } from './components/TeamsTab';
 import { GroupStageTab } from './components/GroupStageTab';
 import { PlayoffsTab } from './components/PlayoffsTab';
 import { RulesTab } from './components/RulesTab';
-import { Trophy, Users, CalendarDays, ScrollText, Lock, Unlock } from 'lucide-react';
+import { Trophy, Users, CalendarDays, ScrollText, Lock, Unlock, AlertCircle, CheckCircle2 } from 'lucide-react';
 
 const AppContent = () => {
   const [activeTab, setActiveTab] = useState<'teams' | 'group' | 'playoffs' | 'rules'>('group');
-  const { isAdmin, login, logout } = useAppStore();
+  const { isAdmin, login, logout, toast } = useAppStore();
   const [showLogin, setShowLogin] = useState(false);
   const [password, setPassword] = useState('');
 
@@ -20,7 +20,21 @@ const AppContent = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 font-sans selection:bg-blue-500/30">
+    <div className="min-h-screen bg-slate-950 text-slate-200 font-sans selection:bg-blue-500/30 relative">
+      {/* Toast Notification */}
+      {toast && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[200] animate-in fade-in slide-in-from-top-4 duration-300">
+          <div className={`flex items-center gap-2 px-4 py-3 rounded-lg shadow-2xl border ${
+            toast.type === 'success' 
+              ? 'bg-emerald-900/90 border-emerald-500/50 text-emerald-100' 
+              : 'bg-red-900/90 border-red-500/50 text-red-100'
+          }`}>
+            {toast.type === 'success' ? <CheckCircle2 className="w-5 h-5" /> : <AlertCircle className="w-5 h-5" />}
+            <span className="font-medium">{toast.message}</span>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <header className="bg-slate-900 border-b border-slate-800 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

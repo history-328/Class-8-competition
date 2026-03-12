@@ -51,6 +51,7 @@ const initialState: AppState = {
 interface AppContextType {
   state: AppState;
   isAdmin: boolean;
+  toast: { message: string; type: 'success' | 'error' } | null;
   login: (password: string) => void;
   logout: () => void;
   updateTeam: (id: string, name: string) => void;
@@ -69,10 +70,25 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [state, setState] = useState<AppState>(initialState);
   const [socket, setSocket] = useState<Socket | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+
+  const showToast = (message: string, type: 'success' | 'error') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  };
 
   useEffect(() => {
     const newSocket = io();
     setSocket(newSocket);
+
+    newSocket.on('connect', () => {
+      console.log('Connected to server');
+    });
+
+    newSocket.on('connect_error', (err) => {
+      console.error('Connection error:', err);
+      showToast('无法连接到服务器，请刷新页面重试。', 'error');
+    });
 
     newSocket.on('stateUpdate', (newState: AppState) => {
       setState(newState);
@@ -80,11 +96,11 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
     newSocket.on('loginSuccess', () => {
       setIsAdmin(true);
-      alert('管理员登录成功！您现在可以编辑赛程了。');
+      showToast('管理员登录成功！您现在可以编辑赛程了。', 'success');
     });
 
     newSocket.on('loginFailed', () => {
-      alert('密码错误，请重试！');
+      showToast('密码错误，请重试！', 'error');
     });
 
     return () => {
@@ -221,6 +237,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       value={{
         state,
         isAdmin,
+        toast,
         login,
         logout,
         updateTeam,
