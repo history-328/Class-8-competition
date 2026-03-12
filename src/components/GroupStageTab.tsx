@@ -101,7 +101,7 @@ export const GroupStageTab: React.FC = () => {
               onChange={(m) => updateGroupMatch('round1', 'match2', m)}
             />
             <div className="bg-slate-800 border border-slate-700 rounded-lg p-4 w-64 shadow-lg flex flex-col justify-center">
-              <span className="text-xs text-slate-400 mb-2">轮空队伍 (直接积2分)</span>
+              <span className="text-xs text-slate-400 mb-2">轮空队伍 (直接积1分)</span>
               <select
                 value={groupStage.round1.byeTeamId || ''}
                 onChange={(e) => updateGroupBye('round1', e.target.value === '' ? null : e.target.value)}
@@ -139,7 +139,7 @@ export const GroupStageTab: React.FC = () => {
               onChange={(m) => updateGroupMatch('round2', 'match2', m)}
             />
             <div className="bg-slate-800 border border-slate-700 rounded-lg p-4 w-64 shadow-lg flex flex-col justify-center">
-              <span className="text-xs text-slate-400 mb-2">轮空队伍 (直接积2分)</span>
+              <span className="text-xs text-slate-400 mb-2">轮空队伍 (直接积1分)</span>
               <select
                 value={groupStage.round2.byeTeamId || ''}
                 onChange={(e) => updateGroupBye('round2', e.target.value === '' ? null : e.target.value)}
