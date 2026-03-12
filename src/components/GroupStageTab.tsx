@@ -55,11 +55,11 @@ export const GroupStageTab: React.FC = () => {
     groupStage.tiebreakers.forEach(tb => processMatch(tb, true));
 
     if (groupStage.round1.byeTeamId) {
-      points[groupStage.round1.byeTeamId] += 2;
+      points[groupStage.round1.byeTeamId] += 1;
       matchesPlayed[groupStage.round1.byeTeamId]++;
     }
     if (groupStage.round2.byeTeamId) {
-      points[groupStage.round2.byeTeamId] += 2;
+      points[groupStage.round2.byeTeamId] += 1;
       matchesPlayed[groupStage.round2.byeTeamId]++;
     }
 

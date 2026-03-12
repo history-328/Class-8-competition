@@ -125,7 +125,7 @@ export const PlayoffsTab: React.FC = () => {
                 match={playoffs.grandFinal}
                 teams={teams}
                 label="Grand Final"
-                bo="BO5"
+                bo="BO3"
                 onChange={(m) => updatePlayoffMatch('grandFinal', m)}
               />
             </div>
